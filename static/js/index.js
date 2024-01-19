@@ -20,6 +20,10 @@ function pageLoader(){
         link.addEventListener('click', changeView)
     }
 
+    // Grab the Find Brews Form and a submit event
+    let findBrewsForm = document.getElementById('find-brews-form')
+    findBrewsForm.addEventListener('submit', findBreweries)
+
 }
 
 
@@ -49,4 +53,22 @@ function changeView(e){
     const toTurnOn = document.getElementById(idToTurnOn);
     toTurnOn.classList.replace('is-invisible', 'is-visible');
     e.target.classList.add('active');
+}
+
+// Function to get Brewery Data
+function findBreweries(e){
+    e.preventDefault(); // will prevent the page from refreshing with form data as query params
+    // Get the value from the city input
+    let cityName = e.target.city.value
+    console.log(`Looking for breweries in ${cityName}...`)
+
+    // Create the URL for getting brewery data from the city
+    const url = `https://api.openbrewerydb.org/v1/breweries?by_city=${cityName}&per_page=10`
+    console.log(url);
+
+    // Make the HTTP request to the API with the city name and log the data
+    fetch(url)
+        .then( res => res.json() )
+        .then( data => console.log(data) )
+        .catch( err => console.error(err) )
 }
