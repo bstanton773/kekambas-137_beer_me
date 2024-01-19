@@ -65,3 +65,39 @@ console.log(middleBubble);
 let navItems = document.querySelectorAll('.nav-item')
 console.log(navItems);
 
+
+
+// Create elements with the Document
+
+// document.createElement('tagName')
+// Create a new element with the given tag name
+let newHeader = document.createElement('h3'); //  <h3></h3>
+newHeader.innerHTML = 'Header Created by Brian with the help of JavaScript'; // <h3>Header created...</h3>
+newHeader.className = 'text-center text-danger'; // <h3 class="text-center text-danger">
+console.log(newHeader);
+
+
+// Add the element to the HTML document
+
+let heroText = document.getElementsByClassName('hero-text')[0];
+// console.log(heroText);
+
+
+// Element.append(elementToAdd)
+// Append the elementToAdd as the LAST CHILD of Element
+// heroText.append(newHeader);
+
+
+// Element.prepend(elementToAdd)
+// Prepend the elementToAdd as the FIRST CHILD of Element
+// heroText.prepend(newHeader);
+
+
+// Element.after(elementToAdd)
+// Add the elementToAdd AFTER (as a sibling) the Element
+// heroText.after(newHeader);
+
+
+// Element.before(elementToAdd)
+// Add the elementToAdd BEFORE (as a sibling) the Element
+heroText.before(newHeader);
