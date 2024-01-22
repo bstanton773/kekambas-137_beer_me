@@ -69,6 +69,58 @@ function findBreweries(e){
     // Make the HTTP request to the API with the city name and log the data
     fetch(url)
         .then( res => res.json() )
-        .then( data => console.log(data) )
+        .then( data => displayBreweries(data) )
         .catch( err => console.error(err) )
+}
+
+
+// Callback function for findBreweries that will insert breweries into the table
+function displayBreweries(data){
+    // Get the table from the HTML
+    let table = document.getElementById('brewery-table');
+
+    // Clear out the table of any current data
+    table.innerHTML = '';
+
+    if (!data.length){
+        table.innerHTML = '<h1>No Breweries Here</h1>'
+        return
+    }
+
+    // Set up the table headers
+    const thead = document.createElement('thead');
+    table.append(thead); // Add the thead as a child to the table
+    let tr = document.createElement('tr');
+    thead.append(tr) // add the table row as a child to the thead
+    const tableHeadings = ['Name', 'Type', 'Street Address', 'Address 2', 'Address 3', 'City', 'State'];
+    tableHeadings.forEach( heading => {
+        let th = document.createElement('th');
+        th.scope = 'col';
+        th.innerHTML = heading
+        tr.append(th)
+    })
+
+    // Create table body and use API data to fill
+    let tbody = document.createElement('tbody');
+    table.append(tbody);
+    // Write a row for each brewery in data
+    for (let brewery of data){
+        let tr = document.createElement('tr');
+        tbody.append(tr);
+
+        newDataCell(tr, `<a href=${brewery.website_url} target="_blank">${brewery.name}</a>`);
+        newDataCell(tr, brewery.brewery_type);
+        newDataCell(tr, brewery.street);
+        newDataCell(tr, brewery.address_2);
+        newDataCell(tr, brewery.address_3);
+        newDataCell(tr, brewery.city);
+        newDataCell(tr, brewery.state);
+    }
+}
+
+// Helper Function for creating a new data cell for the row
+function newDataCell(tr, value){
+    let td = document.createElement('td');
+    td.innerHTML = value ?? '-';
+    tr.append(td);
 }
