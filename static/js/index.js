@@ -59,6 +59,13 @@ function changeView(e){
     const toTurnOn = document.getElementById(idToTurnOn);
     toTurnOn.classList.replace('is-invisible', 'is-visible');
     e.target.classList.add('active');
+
+    // If the view is the grab beer view, listen for keydown events
+    if (idToTurnOn === 'grab'){
+        document.addEventListener('keydown', handleBeerMove )
+    } else {
+        document.removeEventListener('keydown', handleBeerMove )
+    }
 }
 
 // Function to get Brewery Data
@@ -175,4 +182,31 @@ function handleDrop(e){
     console.log(beerId);
     const beer = document.getElementById(beerId);
     e.target.append(beer);
+}
+
+// Function to handle moving the beer with the arrow keys
+function handleBeerMove(e){
+    const arrowKeys = ['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft',]
+    if (arrowKeys.includes(e.key)){
+        console.log(e.key);
+        const glass = document.querySelector('.beerglass')
+        switch(e.key){
+            case 'ArrowUp':
+                glass.style.top = parseInt(glass.style.top) - 5 + 'px';
+                break;
+            case 'ArrowDown':
+                glass.style.top = parseInt(glass.style.top) + 5 + 'px';
+                break;
+            case 'ArrowLeft':
+                glass.style.left = parseInt(glass.style.left) - 5 + 'px';
+                break;
+            case 'ArrowRight':
+                glass.style.left = parseInt(glass.style.left) + 5 + 'px';
+                break;
+        }
+
+        if (glass.style.top === '200px' && glass.style.left === '450px'){
+            setTimeout( () => alert('Enjoy a nice cold beer!'), 0 )
+        }
+    }
 }
