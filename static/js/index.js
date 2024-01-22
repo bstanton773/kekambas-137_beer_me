@@ -24,6 +24,12 @@ function pageLoader(){
     let findBrewsForm = document.getElementById('find-brews-form')
     findBrewsForm.addEventListener('submit', e => findBreweries(e, 1))
 
+    // Add drag and drop for the beer and coaster
+    let coasterDrop = document.getElementById('droppable');
+    coasterDrop.addEventListener('dragover', allowDrop);
+    coasterDrop.addEventListener('drop', handleDrop);
+    let draggableBeer = document.getElementById('draggable');
+    draggableBeer.addEventListener('dragstart', dragBeer);
 }
 
 
@@ -147,4 +153,26 @@ function newDataCell(tr, value){
     let td = document.createElement('td');
     td.innerHTML = value ?? '-';
     tr.append(td);
+}
+
+
+// Function to allow drop events by stopping the default behavior for dragging
+function allowDrop(e){
+    e.preventDefault();
+    // console.log('Allowing drop on:', e.target);
+}
+
+// Function get the Beer ID when the drag starts
+function dragBeer(e){
+    console.log('Dragging beeer...')
+    e.dataTransfer.setData('text', e.target.id);
+}
+
+// Function to handle the drop
+function handleDrop(e){
+    console.log('Dropping beer...')
+    const beerId = e.dataTransfer.getData('text');
+    console.log(beerId);
+    const beer = document.getElementById(beerId);
+    e.target.append(beer);
 }
